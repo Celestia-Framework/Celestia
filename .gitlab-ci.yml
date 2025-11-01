@@ -1,0 +1,24 @@
+image: rust:latest
+
+stages:
+  - build
+  - run
+
+before_script:
+  - rustc --version
+  - cargo --version
+
+build:
+  stage: build
+  script:
+    - cargo build --workspace --all-targets --verbose
+
+run_cli:
+  stage: run
+  script:
+    - cargo run -p cli
+
+run_example:
+  stage: run
+  script:
+    - cargo run -p simple_app

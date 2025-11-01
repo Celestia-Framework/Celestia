@@ -1,14 +1,21 @@
-pub fn add(left: u64, right: u64) -> u64 {
-    left + right
+use celestia_core::{send_command, Command};
+
+type JNIEnv = *mut core::ffi::c_void;
+type JClass = *mut core::ffi::c_void;
+type JString = *mut core::ffi::c_void;
+type jboolean = u8;
+
+#[no_mangle]
+pub extern "system" fn Java_dev_celestia_Core_ping(_env: JNIEnv, _class: JClass) -> jboolean {
+    if send_command(Command::Ping) { 1 } else { 0 }
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
+#[no_mangle]
+pub extern "system" fn Java_dev_celestia_Core_echo(_env: JNIEnv, _class: JClass, _msg: JString) -> jboolean {
+    if send_command(Command::Echo("from_jni".into())) { 1 } else { 0 }
+}
 
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
-    }
+#[no_mangle]
+pub extern "system" fn Java_dev_celestia_Core_shutdown(_env: JNIEnv, _class: JClass) -> jboolean {
+    if send_command(Command::Shutdown) { 1 } else { 0 }
 }

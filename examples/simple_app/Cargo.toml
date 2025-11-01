@@ -1,0 +1,12 @@
+[package]
+name = "simple_app"
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+[dependencies]
+celestia-core = { path = "../../core" }
+
+[[bin]]
+name = "simple_app"
+path = "rust/src/main.rs"
